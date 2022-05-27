@@ -26,7 +26,7 @@
             "File::Slurp" : "0",
             "File::Spec" : "0",
             "Moose" : "0",
-            "Try::Tiny" : "0"
+            "Syntax::Keyword::Try" : "0"
          }
       }
    },

@@ -22,7 +22,7 @@ requires:
   File::Slurp: '0'
   File::Spec: '0'
   Moose: '0'
-  Try::Tiny: '0'
+  Syntax::Keyword::Try: '0'
 resources:
   license: http://dev.perl.org/licenses/
 version: '0.09'

@@ -5,7 +5,7 @@ use Moose;
 use DBI;
 use File::Slurp;
 use File::Spec;
-use Try::Tiny;
+use Syntax::Keyword::Try;
 use File::Temp;
 
 our $VERSION = '0.10';
@@ -423,7 +423,9 @@ EOF
         for my $val ($sth->fetchrow_arrayref) {
             $version = $val->[0];
         }
-    };
+    }
+    catch{
+    }
     return $version;
 }
 
