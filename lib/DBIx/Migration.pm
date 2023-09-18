@@ -332,14 +332,14 @@ sub _create_migration_table {
 
     my $extra_sql = $self->dsn =~ /Pg/ ? 'SET client_min_messages = warning;' : '';
     my $tablename = $self->_tablename;
-    $self->{_dbh}->do(<<"EOF");
+    $self->{_dbh}->do(<<"EOF"); ## SQL safe($tablename)
 $extra_sql
 CREATE TABLE $tablename (
     name VARCHAR(64) PRIMARY KEY,
     value VARCHAR(64)
 );
 EOF
-    $self->{_dbh}->do(<<"EOF");
+    $self->{_dbh}->do(<<"EOF"); ## SQL safe($tablename)
     INSERT INTO $tablename ( name, value ) VALUES ( 'version', '0' );
 EOF
 
@@ -404,8 +404,8 @@ sub _newest {
 sub _update_migration_table {
     my ($self, $version) = @_;
     my $tablename = $self->_tablename;
-    $self->{_dbh}->do(<<"EOF");
-UPDATE $tablename SET value = '$version' WHERE name = 'version';
+    $self->{_dbh}->do(<<"EOF", undef, $version );## SQL safe($tablename)
+UPDATE $tablename SET value = ? WHERE name = 'version';
 EOF
 
     return;
@@ -416,7 +416,7 @@ sub _version {
     my $version   = undef;
     my $tablename = $self->_tablename;
     try {
-        my $sth = $self->{_dbh}->prepare(<<"EOF");
+        my $sth = $self->{_dbh}->prepare(<<"EOF"); ## SQL safe($tablename)
 SELECT value FROM $tablename WHERE name = ?;
 EOF
         $sth->execute('version');
