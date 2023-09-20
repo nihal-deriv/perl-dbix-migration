@@ -25,11 +25,11 @@ jobs:
     - name: pre_install
       run: |
         cpm install --no-test \
-        --mirror=http://cpan.cpantesters.org/ Test::Requires::Git Devel::Cover::Report::Codecov
+        --mirror=http://cpan.cpantesters.org/ Test::Requires::Git Devel::Cover::Report::Coveralls
 
     - name: Install dist deps
       run: cpanm -n --installdeps .
     - name: Run Tests
       run: perl Makefile.PL && make build && make test
     - name: after_sucess
-      run: cover -test -report codecov
+      run: cover -test -report coveralls
